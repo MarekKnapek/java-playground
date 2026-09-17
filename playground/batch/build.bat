@@ -1,0 +1,10 @@
+javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\mk\gui\frame.java
+javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\mk\gui\gui_starter.java
+javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\mk\gui\guiapp1.java
+javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\mk\jvm\info.java
+javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\mk\uint\constants.java
+javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\mk\uint\test.java
+javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\mk\uint\u128.java
+javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\mk\uint\u16.java
+javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\mk\uint\u32.java
+javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\mk\uint\u64.java
