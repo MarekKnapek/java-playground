@@ -1,6 +1,7 @@
 package mk.uint;
 public class u64
 {
+	static final char[] s_alphabet = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 	private short m_a;
 	private short m_b;
 	private short m_c;
@@ -196,5 +197,34 @@ public class u64
 		neu = make_copy();
 		neu.sub_mut(x);
 		return neu;
+	}
+	public java.lang.String as_string_hex_full()
+	{
+		char buf[];
+		int idx;
+		int n;
+		int i;
+		short s;
+		int nibble;
+		java.lang.String r;
+		buf = new char[64 / 8 * 2];
+		idx = (64 / 8 * 2) - 1;
+		n = 4;
+		for(i = 0; i != n; ++i)
+		{
+			s = get(i);
+			nibble = (s >> (0 * 4)) & 0xf; buf[idx] = s_alphabet[nibble]; --idx;
+			nibble = (s >> (1 * 4)) & 0xf; buf[idx] = s_alphabet[nibble]; --idx;
+			nibble = (s >> (2 * 4)) & 0xf; buf[idx] = s_alphabet[nibble]; --idx;
+			nibble = (s >> (3 * 4)) & 0xf; buf[idx] = s_alphabet[nibble]; --idx;
+		}
+		assert idx == -1;
+		r = new java.lang.String(buf);
+		return r;
+	}
+	@Override
+	public java.lang.String toString()
+	{
+		return "0x" + as_string_hex_full();
 	}
 }

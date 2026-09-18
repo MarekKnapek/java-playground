@@ -128,7 +128,7 @@ public class u16
 		assert a <= constants.s_max_u16;
 		assert b >= constants.s_min_u16;
 		assert b <= constants.s_max_u16;
-		r = a + b > constants.s_max_u16;
+		r = (a + b) > constants.s_max_u16;
 		return r;
 	}
 	public static boolean would_overflow_add(short a, short b)
@@ -142,7 +142,7 @@ public class u16
 		assert a <= constants.s_max_u16;
 		assert b >= constants.s_min_u16;
 		assert b <= constants.s_max_u16;
-		r = a + b + (cf ? 1l : 0l) > constants.s_max_u16;
+		r = (a + b + (cf ? 1l : 0l)) > constants.s_max_u16;
 		return r;
 	}
 	public static boolean would_overflow_add(short a, short b, boolean cf)

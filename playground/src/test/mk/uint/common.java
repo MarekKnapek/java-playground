@@ -7,7 +7,7 @@ public class common
 	{
 		super();
 		m_rnd = new java.util.Random();
-		m_count = 1l * 1000l * 1000l;
+		m_count = 100l * 1000l;
 	}
 	public long get_count()
 	{
