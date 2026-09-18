@@ -19,11 +19,18 @@ public class test_all extends base
 		test_u64 = new test_u64(this);
 		test_u64.run_tests();
 	}
+	private void u128()
+	{
+		test_u128 test_u128;
+		test_u128 = new test_u128(this);
+		test_u128.run_tests();
+	}
 	public void run_tests()
 	{
 		u16();
 		u32();
 		u64();
+		u128();
 	}
 	public void run_program()
 	{

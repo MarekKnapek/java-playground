@@ -1,7 +1,6 @@
 package mk.uint;
 public class u64
 {
-	private static final char[] s_alphabet = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 	private short m_a;
 	private short m_b;
 	private short m_c;
@@ -303,10 +302,10 @@ public class u64
 		for(i = 0; i != n; ++i)
 		{
 			s = get(i);
-			nibble = (s >> (0 * 4)) & 0xf; buf[idx] = s_alphabet[nibble]; --idx;
-			nibble = (s >> (1 * 4)) & 0xf; buf[idx] = s_alphabet[nibble]; --idx;
-			nibble = (s >> (2 * 4)) & 0xf; buf[idx] = s_alphabet[nibble]; --idx;
-			nibble = (s >> (3 * 4)) & 0xf; buf[idx] = s_alphabet[nibble]; --idx;
+			nibble = (s >> (0 * 4)) & 0xf; buf[idx] = constants.s_alphabet[nibble]; --idx;
+			nibble = (s >> (1 * 4)) & 0xf; buf[idx] = constants.s_alphabet[nibble]; --idx;
+			nibble = (s >> (2 * 4)) & 0xf; buf[idx] = constants.s_alphabet[nibble]; --idx;
+			nibble = (s >> (3 * 4)) & 0xf; buf[idx] = constants.s_alphabet[nibble]; --idx;
 		}
 		assert idx == -1;
 		r = new java.lang.String(buf);
