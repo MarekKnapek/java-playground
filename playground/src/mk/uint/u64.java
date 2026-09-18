@@ -1,7 +1,7 @@
 package mk.uint;
 public class u64
 {
-	static final char[] s_alphabet = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+	private static final char[] s_alphabet = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 	private short m_a;
 	private short m_b;
 	private short m_c;
@@ -37,17 +37,11 @@ public class u64
 			case 3: m_d = x; break;
 		}
 	}
-	public u64 assign(u64 x)
+	private static u64 make_new()
 	{
-		int n;
-		int i;
-		assert x != null;
-		n = 4;
-		for(i = 0; i != n; ++i)
-		{
-			set(i, x.get(i));
-		}
-		return this;
+		u64 r;
+		r = new u64();
+		return r;
 	}
 	public static u64 make_random(java.util.Random random)
 	{
@@ -61,7 +55,7 @@ public class u64
 		{
 			rnd = new java.util.Random();
 		}
-		r = new u64();
+		r = make_new();
 		n = 4;
 		for(i = 0; i != n; ++i)
 		{
@@ -73,17 +67,29 @@ public class u64
 	public static u64 make_from_ints(short a, short b, short c, short d)
 	{
 		u64 r;
-		r = new u64();
+		r = make_new();
 		r.set(0, a);
 		r.set(1, b);
 		r.set(2, c);
 		r.set(3, d);
 		return r;
 	}
+	public u64 assign(u64 x)
+	{
+		int n;
+		int i;
+		assert x != null;
+		n = 4;
+		for(i = 0; i != n; ++i)
+		{
+			set(i, x.get(i));
+		}
+		return this;
+	}
 	public u64 make_copy()
 	{
 		u64 r;
-		r = new u64();
+		r = make_new();
 		r.assign(this);
 		return r;
 	}
@@ -250,7 +256,7 @@ public class u64
 		assert r != null;
 		assert a != null;
 		assert b != null;
-		rr = new u64();
+		rr = make_new();
 		mul_restrict(rr, a, b);
 		r.assign(rr);
 	}
