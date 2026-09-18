@@ -37,6 +37,18 @@ public class u64
 			case 3: m_d = x; break;
 		}
 	}
+	public u64 assign(u64 x)
+	{
+		int n;
+		int i;
+		assert x != null;
+		n = 4;
+		for(i = 0; i != n; ++i)
+		{
+			set(i, x.get(i));
+		}
+		return this;
+	}
 	public static u64 make_random(java.util.Random random)
 	{
 		java.util.Random rnd;
@@ -71,14 +83,8 @@ public class u64
 	public u64 make_copy()
 	{
 		u64 r;
-		int n;
-		int i;
 		r = new u64();
-		n = 4;
-		for(i = 0; i != n; ++i)
-		{
-			r.set(i, get(i));
-		}
+		r.assign(this);
 		return r;
 	}
 	public static boolean eq(u64 a, u64 b)
@@ -196,6 +202,84 @@ public class u64
 		assert x != null;
 		neu = make_copy();
 		neu.sub_mut(x);
+		return neu;
+	}
+	private static void mul_restrict(u64 r, u64 a, u64 b)
+	{
+		short sa;
+		short sb;
+		short ra;
+		short rb;
+		short ta;
+		boolean cf;
+		short tb;
+		assert r != null;
+		assert a != null;
+		assert b != null;
+		assert r != a;
+		assert r != b;
+		sa = a.get(0); sb = b.get(0); ra = u16.mul_lo(sa, sb); rb = u16.mul_hi(sa, sb); r.set(0, ra); r.set(1, rb);
+		sa = a.get(1); sb = b.get(0); ra = u16.mul_lo(sa, sb); rb = u16.mul_hi(sa, sb); ta = ra; r.set(2, rb);
+		sa = r.get(1); sb = ta; ra = u16.add(sa, sb); cf = u16.would_overflow_add(sa, sb); r.set(1, ra);
+		if(cf){ r.set(2, u16.add(r.get(2), ((short)(1)))); }
+		sa = a.get(0); sb = b.get(1); ra = u16.mul_lo(sa, sb); rb = u16.mul_hi(sa, sb); ta = ra; tb = rb;
+		sa = r.get(1); sb = ta; ra = u16.add(sa, sb); cf = u16.would_overflow_add(sa, sb); r.set(1, ra);
+		sa = r.get(2); sb = tb; ra = u16.add(sa, sb, cf); cf = u16.would_overflow_add(sa, sb, cf); r.set(2, ra);
+		if(cf){ r.set(3, ((short)(1))); }else{ r.set(3, ((short)(0))); }
+		sa = a.get(2); sb = b.get(0); ra = u16.mul_lo(sa, sb); rb = u16.mul_hi(sa, sb); ta = ra; tb = rb;
+		sa = r.get(2); sb = ta; ra = u16.add(sa, sb); cf = u16.would_overflow_add(sa, sb); r.set(2, ra);
+		sa = r.get(3); sb = tb; ra = u16.add(sa, sb, cf); r.set(3, ra);
+		sa = a.get(1); sb = b.get(1); ra = u16.mul_lo(sa, sb); rb = u16.mul_hi(sa, sb); ta = ra; tb = rb;
+		sa = r.get(2); sb = ta; ra = u16.add(sa, sb); cf = u16.would_overflow_add(sa, sb); r.set(2, ra);
+		sa = r.get(3); sb = tb; ra = u16.add(sa, sb, cf); r.set(3, ra);
+		sa = a.get(0); sb = b.get(2); ra = u16.mul_lo(sa, sb); rb = u16.mul_hi(sa, sb); ta = ra; tb = rb;
+		sa = r.get(2); sb = ta; ra = u16.add(sa, sb); cf = u16.would_overflow_add(sa, sb); r.set(2, ra);
+		sa = r.get(3); sb = tb; ra = u16.add(sa, sb, cf); r.set(3, ra);
+		sa = a.get(3); sb = b.get(0); ra = u16.mul_lo(sa, sb); ta = ra;
+		sa = r.get(3); sb = ta; ra = u16.add(sa, sb); r.set(3, ra);
+		sa = a.get(2); sb = b.get(1); ra = u16.mul_lo(sa, sb); ta = ra;
+		sa = r.get(3); sb = ta; ra = u16.add(sa, sb); r.set(3, ra);
+		sa = a.get(1); sb = b.get(2); ra = u16.mul_lo(sa, sb); ta = ra;
+		sa = r.get(3); sb = ta; ra = u16.add(sa, sb); r.set(3, ra);
+		sa = a.get(0); sb = b.get(3); ra = u16.mul_lo(sa, sb); ta = ra;
+		sa = r.get(3); sb = ta; ra = u16.add(sa, sb); r.set(3, ra);
+	}
+	private static void mul_alias(u64 r, u64 a, u64 b)
+	{
+		u64 rr;
+		assert r != null;
+		assert a != null;
+		assert b != null;
+		rr = new u64();
+		mul_restrict(rr, a, b);
+		r.assign(rr);
+	}
+	public static void mul(u64 r, u64 a, u64 b)
+	{
+		assert r != null;
+		assert a != null;
+		assert b != null;
+		if(r == a || r == b)
+		{
+			mul_alias(r, a, b);
+		}
+		else
+		{
+			mul_restrict(r, a, b);
+		}
+	}
+	public u64 mul_mut(u64 x)
+	{
+		assert x != null;
+		mul(this, this, x);
+		return this;
+	}
+	public u64 mul_new(u64 x)
+	{
+		u64 neu;
+		assert x != null;
+		neu = make_copy();
+		neu.mul_mut(x);
 		return neu;
 	}
 	public java.lang.String as_string_hex_full()
