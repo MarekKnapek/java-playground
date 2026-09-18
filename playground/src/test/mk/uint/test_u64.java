@@ -1,29 +1,29 @@
 package test.mk.uint;
-public class test_all extends base
+public class test_u64 extends base
 {
-	private void u16()
+	private void add_sub()
 	{
-		test_u16 test_u16;
-		test_u16 = new test_u16(this);
-		test_u16.run_tests();
-	}
-	private void u32()
-	{
-		test_u32 test_u32;
-		test_u32 = new test_u32(this);
-		test_u32.run_tests();
-	}
-	private void u64()
-	{
-		test_u64 test_u64;
-		test_u64 = new test_u64(this);
-		test_u64.run_tests();
+		long n;
+		long i;
+		mk.uint.u64 a;
+		mk.uint.u64 b;
+		mk.uint.u64 c;
+		mk.uint.u64 d;
+		boolean gud;
+		n = get_count();
+		for(i = 0l; i != n; ++i)
+		{
+			a = mk.uint.u64.make_random(get_rnd());
+			b = mk.uint.u64.make_random(get_rnd());
+			c = a.add_new(b);
+			d = c.sub_new(a);
+			gud = d.eq(b);
+			test(gud);
+		}
 	}
 	public void run_tests()
 	{
-		u16();
-		u32();
-		u64();
+		add_sub();
 	}
 	public void run_program()
 	{
@@ -42,20 +42,20 @@ public class test_all extends base
 		tests_count = get_tests();
 		System.out.format(java.util.Locale.ROOT, "Performed %d tests, took %f seconds.%n", tests_count, seconds);
 	}
-	public test_all(mk.test.itest itest)
+	public test_u64(mk.test.itest itest)
 	{
 		super(itest);
 	}
-	public test_all(base base)
+	public test_u64(base base)
 	{
 		super(base);
 	}
 	public static void main(String[] args)
 	{
 		mk.test.test itest;
-		test_all test_all;
+		test_u64 test_u64;
 		itest = new mk.test.test();
-		test_all = new test_all(itest);
-		test_all.run_program();
+		test_u64 = new test_u64(itest);
+		test_u64.run_program();
 	}
 }

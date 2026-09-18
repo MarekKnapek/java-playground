@@ -1,21 +1,30 @@
 package mk.uint;
 public class u64
 {
-	private int m_a;
-	private int m_b;
-	private int get(int idx)
+	private short m_a;
+	private short m_b;
+	private short m_c;
+	private short m_d;
+	private u64()
 	{
+		super();
+	}
+	private short get(int idx)
+	{
+		short r;
 		assert idx >= 0;
 		assert idx < 4;
-		int r = 0;
+		r = 0;
 		switch(idx)
 		{
 			case 0: r = m_a; break;
 			case 1: r = m_b; break;
+			case 2: r = m_c; break;
+			case 3: r = m_d; break;
 		}
 		return r;
 	}
-	private void set(int idx, int x)
+	private void set(int idx, short x)
 	{
 		assert idx >= 0;
 		assert idx < 4;
@@ -23,38 +32,169 @@ public class u64
 		{
 			case 0: m_a = x; break;
 			case 1: m_b = x; break;
+			case 2: m_c = x; break;
+			case 3: m_d = x; break;
 		}
 	}
-	public static u64 make_random(java.util.Random rnd)
+	public static u64 make_random(java.util.Random random)
 	{
+		java.util.Random rnd;
 		u64 r;
-		java.util.Random rrr;
 		int n;
 		int i;
-		int x;
-		r = new u64();
-		assert r != null;
-		rrr = rnd;
-		if(rrr == null)
+		short x;
+		rnd = random;
+		if(rnd == null)
 		{
-			rrr = new java.util.Random();
+			rnd = new java.util.Random();
 		}
-		assert rrr != null;
-		n = 2;
+		r = new u64();
+		n = 4;
 		for(i = 0; i != n; ++i)
 		{
-			x = rnd.nextInt();
+			x = u16.make_random_int(rnd);
 			r.set(i, x);
 		}
 		return r;
 	}
-	public static u64 make_from_ints(int a, int b)
+	public static u64 make_from_ints(short a, short b, short c, short d)
 	{
 		u64 r;
 		r = new u64();
-		assert r != null;
 		r.set(0, a);
 		r.set(1, b);
+		r.set(2, c);
+		r.set(3, d);
 		return r;
+	}
+	public u64 make_copy()
+	{
+		u64 r;
+		int n;
+		int i;
+		r = new u64();
+		n = 4;
+		for(i = 0; i != n; ++i)
+		{
+			r.set(i, get(i));
+		}
+		return r;
+	}
+	public static boolean eq(u64 a, u64 b)
+	{
+		boolean r;
+		assert a != null;
+		assert b != null;
+		r = true;
+		if(a != b)
+		{
+			r = r & u16.eq(a.get(0), b.get(0));
+			r = r & u16.eq(a.get(1), b.get(1));
+			r = r & u16.eq(a.get(2), b.get(2));
+			r = r & u16.eq(a.get(3), b.get(3));
+		}
+		return r;
+	}
+	public boolean eq(u64 x)
+	{
+		boolean r;
+		assert x != null;
+		r = eq(this, x);
+		return r;
+	}
+	@Override
+	public boolean equals(java.lang.Object x)
+	{
+		boolean r;
+		r = this == x;
+		if(!r)
+		{
+			r = true;
+			if(r)
+			{
+				r = x != null;
+			}
+			if(r)
+			{
+				r = x instanceof u64;
+			}
+			if(r)
+			{
+				r = eq(((u64)(x)));
+			}
+		}
+		return r;
+	}
+	public static void add(u64 r, u64 a, u64 b)
+	{
+		boolean cf;
+		int n;
+		int i;
+		short sa;
+		short sb;
+		short sr;
+		assert r != null;
+		assert a != null;
+		assert b != null;
+		cf = false;
+		n = 4;
+		for(i = 0; i != n; ++i)
+		{
+			sa = a.get(i);
+			sb = b.get(i);
+			sr = u16.add(sa, sb, cf);
+			cf = u16.would_overflow_add(sa, sb, cf);
+			r.set(i, sr);
+		}
+	}
+	public u64 add_mut(u64 x)
+	{
+		assert x != null;
+		add(this, this, x);
+		return this;
+	}
+	public u64 add_new(u64 x)
+	{
+		u64 neu;
+		assert x != null;
+		neu = make_copy();
+		neu.add_mut(x);
+		return neu;
+	}
+	public static void sub(u64 r, u64 a, u64 b)
+	{
+		boolean cf;
+		int n;
+		int i;
+		short sa;
+		short sb;
+		short sr;
+		assert r != null;
+		assert a != null;
+		assert b != null;
+		cf = false;
+		n = 4;
+		for(i = 0; i != n; ++i)
+		{
+			sa = a.get(i);
+			sb = b.get(i);
+			sr = u16.sub(sa, sb, cf);
+			cf = u16.would_overflow_sub(sa, sb, cf);
+			r.set(i, sr);
+		}
+	}
+	public u64 sub_mut(u64 x)
+	{
+		assert x != null;
+		sub(this, this, x);
+		return this;
+	}
+	public u64 sub_new(u64 x)
+	{
+		u64 neu;
+		assert x != null;
+		neu = make_copy();
+		neu.sub_mut(x);
+		return neu;
 	}
 }

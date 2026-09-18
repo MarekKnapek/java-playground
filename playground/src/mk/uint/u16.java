@@ -102,6 +102,53 @@ public class u16
 	{
 		return long_to_int(add(int_to_long(a), int_to_long(b)));
 	}
+	public static long add(long a, long b, boolean cf)
+	{
+		long r;
+		assert a >= constants.s_min_u16;
+		assert a <= constants.s_max_u16;
+		assert b >= constants.s_min_u16;
+		assert b <= constants.s_max_u16;
+		r = a + b + (cf ? 1l : 0l);
+		assert r >= 0;
+		assert r <= 0x1fffel;
+		r &= constants.s_max_u16;
+		assert r >= constants.s_min_u16;
+		assert r <= constants.s_max_u16;
+		return r;
+	}
+	public static short add(short a, short b, boolean cf)
+	{
+		return long_to_int(add(int_to_long(a), int_to_long(b), cf));
+	}
+	public static boolean would_overflow_add(long a, long b)
+	{
+		boolean r;
+		assert a >= constants.s_min_u16;
+		assert a <= constants.s_max_u16;
+		assert b >= constants.s_min_u16;
+		assert b <= constants.s_max_u16;
+		r = a + b > constants.s_max_u16;
+		return r;
+	}
+	public static boolean would_overflow_add(short a, short b)
+	{
+		return u16.would_overflow_add(int_to_long(a), int_to_long(b));
+	}
+	public static boolean would_overflow_add(long a, long b, boolean cf)
+	{
+		boolean r;
+		assert a >= constants.s_min_u16;
+		assert a <= constants.s_max_u16;
+		assert b >= constants.s_min_u16;
+		assert b <= constants.s_max_u16;
+		r = a + b + (cf ? 1l : 0l) > constants.s_max_u16;
+		return r;
+	}
+	public static boolean would_overflow_add(short a, short b, boolean cf)
+	{
+		return u16.would_overflow_add(int_to_long(a), int_to_long(b), cf);
+	}
 	public static long sub(long a, long b)
 	{
 		long r;
@@ -120,6 +167,60 @@ public class u16
 	public static short sub(short a, short b)
 	{
 		return long_to_int(sub(int_to_long(a), int_to_long(b)));
+	}
+	public static long sub(long a, long b, boolean cf)
+	{
+		long r;
+		assert a >= constants.s_min_u16;
+		assert a <= constants.s_max_u16;
+		assert b >= constants.s_min_u16;
+		assert b <= constants.s_max_u16;
+		r = (a + (constants.s_max_u16 + 1)) - b - (cf ? 1l : 0l);
+		assert r >= 1l;
+		assert r <= 0x1ffffl;
+		r &= constants.s_max_u16;
+		assert r >= constants.s_min_u16;
+		assert r <= constants.s_max_u16;
+		return r;
+	}
+	public static short sub(short a, short b, boolean cf)
+	{
+		return long_to_int(sub(int_to_long(a), int_to_long(b), cf));
+	}
+	public static boolean would_overflow_sub(long a, long b)
+	{
+		boolean r;
+		assert a >= constants.s_min_u16;
+		assert a <= constants.s_max_u16;
+		assert b >= constants.s_min_u16;
+		assert b <= constants.s_max_u16;
+		r = a < b;
+		return r;
+	}
+	public static boolean would_overflow_sub(short a, short b)
+	{
+		return u16.would_overflow_sub(int_to_long(a), int_to_long(b));
+	}
+	public static boolean would_overflow_sub(long a, long b, boolean cf)
+	{
+		boolean r;
+		assert a >= constants.s_min_u16;
+		assert a <= constants.s_max_u16;
+		assert b >= constants.s_min_u16;
+		assert b <= constants.s_max_u16;
+		if(cf)
+		{
+			r = a <= b;
+		}
+		else
+		{
+			r = a < b;
+		}
+		return r;
+	}
+	public static boolean would_overflow_sub(short a, short b, boolean cf)
+	{
+		return u16.would_overflow_sub(int_to_long(a), int_to_long(b), cf);
 	}
 	public static long mul_lo(long a, long b)
 	{
