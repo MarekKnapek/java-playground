@@ -1,0 +1,142 @@
+package test.mk.uint;
+public class test_u256 extends base
+{
+	private void add_sub()
+	{
+		long n;
+		long i;
+		mk.uint.u256 a;
+		mk.uint.u256 b;
+		mk.uint.u256 c;
+		mk.uint.u256 d;
+		boolean gud;
+		n = get_count();
+		for(i = 0l; i != n; ++i)
+		{
+			a = mk.uint.u256.make_random(get_rnd());
+			b = mk.uint.u256.make_random(get_rnd());
+			c = a.add_new(b);
+			d = c.sub_new(a);
+			gud = d.eq(b);
+			test(gud);
+		}
+	}
+	private void add()
+	{
+		long n;
+		long i;
+		mk.uint.u256 a;
+		mk.uint.u256 b;
+		mk.uint.u256 c;
+		java.math.BigInteger ba;
+		java.math.BigInteger bb;
+		java.math.BigInteger bc;
+		java.math.BigInteger bd;
+		boolean gud;
+		n = get_count();
+		for(i = 0l; i != n; ++i)
+		{
+			a = mk.uint.u256.make_random(get_rnd());
+			b = mk.uint.u256.make_random(get_rnd());
+			c = a.add_new(b);
+			ba = new java.math.BigInteger(a.as_string_hex_full(), 16);
+			bb = new java.math.BigInteger(b.as_string_hex_full(), 16);
+			bc = new java.math.BigInteger(c.as_string_hex_full(), 16);
+			bd = ba.add(bb).and(java.math.BigInteger.valueOf(1).shiftLeft(256).subtract(java.math.BigInteger.valueOf(1)));
+			gud = bc.equals(bd);
+			test(gud);
+		}
+	}
+	private void sub()
+	{
+		long n;
+		long i;
+		mk.uint.u256 a;
+		mk.uint.u256 b;
+		mk.uint.u256 c;
+		java.math.BigInteger ba;
+		java.math.BigInteger bb;
+		java.math.BigInteger bc;
+		java.math.BigInteger bd;
+		boolean gud;
+		n = get_count();
+		for(i = 0l; i != n; ++i)
+		{
+			a = mk.uint.u256.make_random(get_rnd());
+			b = mk.uint.u256.make_random(get_rnd());
+			c = a.sub_new(b);
+			ba = new java.math.BigInteger(a.as_string_hex_full(), 16);
+			bb = new java.math.BigInteger(b.as_string_hex_full(), 16);
+			bc = new java.math.BigInteger(c.as_string_hex_full(), 16);
+			bd = ba.subtract(bb).add(java.math.BigInteger.valueOf(1).shiftLeft(256)).and(java.math.BigInteger.valueOf(1).shiftLeft(256).subtract(java.math.BigInteger.valueOf(1)));
+			gud = bc.equals(bd);
+			test(gud);
+		}
+	}
+	private void mul()
+	{
+		long n;
+		long i;
+		mk.uint.u256 a;
+		mk.uint.u256 b;
+		mk.uint.u256 c;
+		java.math.BigInteger ba;
+		java.math.BigInteger bb;
+		java.math.BigInteger bc;
+		java.math.BigInteger bd;
+		boolean gud;
+		n = get_count();
+		for(i = 0l; i != n; ++i)
+		{
+			a = mk.uint.u256.make_random(get_rnd());
+			b = mk.uint.u256.make_random(get_rnd());
+			c = a.mul_new(b);
+			ba = new java.math.BigInteger(a.as_string_hex_full(), 16);
+			bb = new java.math.BigInteger(b.as_string_hex_full(), 16);
+			bc = new java.math.BigInteger(c.as_string_hex_full(), 16);
+			bd = ba.multiply(bb).and(java.math.BigInteger.valueOf(1).shiftLeft(256).subtract(java.math.BigInteger.valueOf(1)));
+			gud = bc.equals(bd);
+			test(gud);
+		}
+	}
+	public void run_tests()
+	{
+		add_sub();
+		add();
+		sub();
+		mul();
+	}
+	public void run_program()
+	{
+		long before;
+		long after;
+		long diff;
+		double seconds;
+		long tests_count;
+		before = java.lang.System.nanoTime();
+		System.out.println("Start.");
+		run_tests();
+		System.out.println("Done.");
+		after = java.lang.System.nanoTime();
+		diff = after - before;
+		seconds = ((double)(diff)) / (1.0 * 1000.0 * 1000.0 * 1000.0);
+		tests_count = get_tests();
+		System.out.format(java.util.Locale.ROOT, "Performed %d tests, took %f seconds.%n", tests_count, seconds);
+	}
+	public test_u256(mk.test.itest itest)
+	{
+		super(itest);
+	}
+	public test_u256(base base)
+	{
+		super(base);
+	}
+	public static void main(String[] args)
+	{
+		mk.test.test itest;
+		test_u256 test_u256;
+		itest = new mk.test.test();
+		test_u256 = new test_u256(itest);
+		test_u256.run_program();
+	}
+}

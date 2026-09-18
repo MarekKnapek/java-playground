@@ -14,10 +14,14 @@ javac -d "${mk_out_dir}" -cp "${mk_src_dir}" "${mk_src_dir}"/mk/test/test.java
 javac -d "${mk_out_dir}" -cp "${mk_src_dir}" "${mk_src_dir}"/mk/uint/constants.java
 javac -d "${mk_out_dir}" -cp "${mk_src_dir}" "${mk_src_dir}"/mk/uint/u128.java
 javac -d "${mk_out_dir}" -cp "${mk_src_dir}" "${mk_src_dir}"/mk/uint/u16.java
+javac -d "${mk_out_dir}" -cp "${mk_src_dir}" "${mk_src_dir}"/mk/uint/u256.java
 javac -d "${mk_out_dir}" -cp "${mk_src_dir}" "${mk_src_dir}"/mk/uint/u32.java
 javac -d "${mk_out_dir}" -cp "${mk_src_dir}" "${mk_src_dir}"/mk/uint/u64.java
 javac -d "${mk_out_dir}" -cp "${mk_src_dir}" "${mk_src_dir}"/test/mk/uint/base.java
 javac -d "${mk_out_dir}" -cp "${mk_src_dir}" "${mk_src_dir}"/test/mk/uint/common.java
 javac -d "${mk_out_dir}" -cp "${mk_src_dir}" "${mk_src_dir}"/test/mk/uint/test_all.java
+javac -d "${mk_out_dir}" -cp "${mk_src_dir}" "${mk_src_dir}"/test/mk/uint/test_u128.java
 javac -d "${mk_out_dir}" -cp "${mk_src_dir}" "${mk_src_dir}"/test/mk/uint/test_u16.java
+javac -d "${mk_out_dir}" -cp "${mk_src_dir}" "${mk_src_dir}"/test/mk/uint/test_u256.java
 javac -d "${mk_out_dir}" -cp "${mk_src_dir}" "${mk_src_dir}"/test/mk/uint/test_u32.java
+javac -d "${mk_out_dir}" -cp "${mk_src_dir}" "${mk_src_dir}"/test/mk/uint/test_u64.java

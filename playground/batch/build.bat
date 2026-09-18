@@ -7,13 +7,17 @@ javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\mk\test\test.java || 
 javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\mk\uint\constants.java || goto :mk_bad
 javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\mk\uint\u128.java || goto :mk_bad
 javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\mk\uint\u16.java || goto :mk_bad
+javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\mk\uint\u256.java || goto :mk_bad
 javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\mk\uint\u32.java || goto :mk_bad
 javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\mk\uint\u64.java || goto :mk_bad
 javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\test\mk\uint\base.java || goto :mk_bad
 javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\test\mk\uint\common.java || goto :mk_bad
 javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\test\mk\uint\test_all.java || goto :mk_bad
+javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\test\mk\uint\test_u128.java || goto :mk_bad
 javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\test\mk\uint\test_u16.java || goto :mk_bad
+javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\test\mk\uint\test_u256.java || goto :mk_bad
 javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\test\mk\uint\test_u32.java || goto :mk_bad
+javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\test\mk\uint\test_u64.java || goto :mk_bad
 goto :mk_gud
 :mk_bad
 echo Bad.
