@@ -1,41 +1,46 @@
 package mk.uint;
 public class test
 {
-	private static void test_uint16_roud_trip(java.util.Random rnd)
+	private java.util.Random m_rnd;
+	private long m_count;
+	private test()
+	{
+		m_rnd = new java.util.Random();
+		m_count = 1l * 1000l * 1000l;
+	}
+	private void test_uint16_roud_trip()
 	{
 		long n;
 		long i;
 		short a;
 		long b;
 		int c;
-		assert rnd != null;
-		n = 1l * 1000l * 1000l;
+		n = m_count;
 		for(i = 0l; i != n; ++i)
 		{
-			a = ((short)(rnd.nextInt(((int)(Short.MAX_VALUE)) + 1)));
+			a = ((short)(m_rnd.nextInt(((int)(Short.MAX_VALUE)) + 1)));
 			b = mk.uint.u16.int_to_long(a);
 			c = mk.uint.u16.long_to_int(b);
 			assert c == a;
 		}
 	}
-	private static void test_uint128_roud_trip(java.util.Random rnd)
+	private void test_uint128_roud_trip()
 	{
 		long n;
 		long i;
 		int a;
 		long b;
 		int c;
-		assert rnd != null;
-		n = 1l * 1000l * 1000l;
+		n = m_count;
 		for(i = 0l; i != n; ++i)
 		{
-			a = rnd.nextInt();
+			a = m_rnd.nextInt();
 			b = mk.uint.u32.int_to_long(a);
 			c = mk.uint.u32.long_to_int(b);
 			assert c == a;
 		}
 	}
-	private static void test_uint128_add_sub(java.util.Random rnd)
+	private void test_uint128_add_sub()
 	{
 		long n;
 		long i;
@@ -44,19 +49,18 @@ public class test
 		u128 c;
 		u128 d;
 		boolean gud;
-		assert rnd != null;
-		n = 1l * 1000l * 1000l;
+		n = m_count;
 		for(i = 0l; i != n; ++i)
 		{
-			a = u128.make_random(rnd);
-			b = u128.make_random(rnd);
+			a = u128.make_random(m_rnd);
+			b = u128.make_random(m_rnd);
 			c = a.add_new(b);
 			d = c.sub_new(b);
 			gud = d.equals(a);
 			assert gud;
 		}
 	}
-	private static void test_uint32_mul_lo_a(java.util.Random rnd)
+	private void test_uint32_mul_lo_a()
 	{
 		long n;
 		long i;
@@ -65,19 +69,18 @@ public class test
 		int c;
 		int d;
 		boolean gud;
-		assert rnd != null;
-		n = 1l * 1000l * 1000l;
+		n = m_count;
 		for(i = 0l; i != n; ++i)
 		{
-			a = rnd.nextInt();
-			b = rnd.nextInt();
+			a = m_rnd.nextInt();
+			b = m_rnd.nextInt();
 			c = a * b;
 			d = mk.uint.u32.mul_lo(a, b);
 			gud = d == c;
 			assert gud;
 		}
 	}
-	private static void test_uint32_mul_lo_b(java.util.Random rnd)
+	private void test_uint32_mul_lo_b()
 	{
 		long n;
 		long i;
@@ -91,12 +94,11 @@ public class test
 		int c;
 		int d;
 		boolean gud;
-		assert rnd != null;
-		n = 1l * 1000l * 1000l;
+		n = m_count;
 		for(i = 0l; i != n; ++i)
 		{
-			a = rnd.nextInt();
-			b = rnd.nextInt();
+			a = m_rnd.nextInt();
+			b = m_rnd.nextInt();
 			ba = java.math.BigInteger.valueOf(mk.uint.u32.int_to_long(a));
 			bb = java.math.BigInteger.valueOf(mk.uint.u32.int_to_long(b));
 			bc = ba.multiply(bb);
@@ -108,7 +110,7 @@ public class test
 			assert gud;
 		}
 	}
-	private static void test_uint32_mul_hi(java.util.Random rnd)
+	private void test_uint32_mul_hi()
 	{
 		long n;
 		long i;
@@ -121,12 +123,11 @@ public class test
 		int c;
 		int d;
 		boolean gud;
-		assert rnd != null;
-		n = 1l * 1000l * 1000l;
+		n = m_count;
 		for(i = 0l; i != n; ++i)
 		{
-			a = rnd.nextInt();
-			b = rnd.nextInt();
+			a = m_rnd.nextInt();
+			b = m_rnd.nextInt();
 			ba = java.math.BigInteger.valueOf(mk.uint.u32.int_to_long(a));
 			bb = java.math.BigInteger.valueOf(mk.uint.u32.int_to_long(b));
 			bc = ba.multiply(bb);
@@ -137,18 +138,16 @@ public class test
 			assert gud;
 		}
 	}
-	private static void run_tests()
+	private void run_tests()
 	{
-		java.util.Random rnd;
-		rnd = new java.util.Random();
-		test_uint16_roud_trip(rnd);
-		test_uint128_roud_trip(rnd);
-		test_uint128_add_sub(rnd);
-		test_uint32_mul_lo_a(rnd);
-		test_uint32_mul_lo_b(rnd);
-		test_uint32_mul_hi(rnd);
+		test_uint16_roud_trip();
+		test_uint128_roud_trip();
+		test_uint128_add_sub();
+		test_uint32_mul_lo_a();
+		test_uint32_mul_lo_b();
+		test_uint32_mul_hi();
 	}
-	private static void run_program()
+	private void run_program()
 	{
 		long before;
 		long after;
@@ -165,6 +164,7 @@ public class test
 	}
 	public static void main(String[] args)
 	{
-		run_program();
+		test tst = new test();
+		tst.run_program();
 	}
 }
