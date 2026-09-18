@@ -26,6 +26,8 @@ public class u32
 		assert x <= constants.s_max_u32;
 		if(x <= constants.s_max_s32)
 		{
+			assert x >= constants.s_min_s32;
+			assert x <= constants.s_max_s32;
 			r = ((int)(x));
 		}
 		else
@@ -39,6 +41,38 @@ public class u32
 		}
 		return r;
 	}
+	public static int make_random_int(java.util.Random random)
+	{
+		java.util.Random rnd;
+		int r;
+		rnd = random;
+		if(rnd == null)
+		{
+			rnd = new java.util.Random();
+		}
+		r = rnd.nextInt();
+		assert r >= constants.s_min_s32;
+		assert r <= constants.s_max_s32;
+		return r;
+	}
+	public static long make_random_long(java.util.Random random)
+	{
+		return int_to_long(make_random_int(random));
+	}
+	public static boolean eq(long a, long b)
+	{
+		boolean r;
+		assert a >= constants.s_min_u32;
+		assert a <= constants.s_max_u32;
+		assert b >= constants.s_min_u32;
+		assert b <= constants.s_max_u32;
+		r = a == b;
+		return r;
+	}
+	public static boolean eq(int a, int b)
+	{
+		return eq(int_to_long(a), int_to_long(b));
+	}
 	public static long get_lo(long x)
 	{
 		long r;
@@ -49,9 +83,9 @@ public class u32
 		assert r <= constants.s_max_u16;
 		return r;
 	}
-	public static long get_lo(int x)
+	public static int get_lo(int x)
 	{
-		return get_lo(int_to_long(x));
+		return long_to_int(get_lo(int_to_long(x)));
 	}
 	public static long get_hi(long x)
 	{
@@ -63,9 +97,9 @@ public class u32
 		assert r <= constants.s_max_u16;
 		return r;
 	}
-	public static long get_hi(int x)
+	public static int get_hi(int x)
 	{
-		return get_hi(int_to_long(x));
+		return long_to_int(get_hi(int_to_long(x)));
 	}
 	public static long combine_hi_lo_long(long x_hi, long x_lo)
 	{
@@ -100,6 +134,29 @@ public class u32
 		assert r >= constants.s_min_u32;
 		assert r <= constants.s_max_u32;
 		return r;
+	}
+	public static int add(int a, int b)
+	{
+		return long_to_int(add(int_to_long(a), int_to_long(b)));
+	}
+	public static long sub(long a, long b)
+	{
+		long r;
+		assert a >= constants.s_min_u32;
+		assert a <= constants.s_max_u32;
+		assert b >= constants.s_min_u32;
+		assert b <= constants.s_max_u32;
+		r = (a + (constants.s_max_u32 + 1)) - b;
+		assert r >= 1l;
+		assert r <= 0x1ffffffffl;
+		r &= constants.s_max_u32;
+		assert r >= constants.s_min_u32;
+		assert r <= constants.s_max_u32;
+		return r;
+	}
+	public static int sub(int a, int b)
+	{
+		return long_to_int(sub(int_to_long(a), int_to_long(b)));
 	}
 	public static long and(long a, long b)
 	{

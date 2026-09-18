@@ -159,6 +159,7 @@ public class frame extends javax.swing.JFrame implements
 		fr.pack();
 		fr.setLocationRelativeTo(this);
 		fr.setVisible(true);
+		setVisible(false);
 		dispose();
 	}
 	private void on_exit_button()

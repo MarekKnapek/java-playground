@@ -26,6 +26,8 @@ public class u16
 		assert x <= constants.s_max_u16;
 		if(x <= constants.s_max_s16)
 		{
+			assert x >= constants.s_min_s16;
+			assert x <= constants.s_max_s16;
 			r = ((short)(x));
 		}
 		else
@@ -38,6 +40,48 @@ public class u16
 			r = ((short)(t));
 		}
 		return r;
+	}
+	public static short make_random_int(java.util.Random random)
+	{
+		java.util.Random rnd;
+		int mx;
+		int tsi;
+		short r;
+		rnd = random;
+		if(rnd == null)
+		{
+			rnd = new java.util.Random();
+		}
+		mx = ((int)(constants.s_max_u16));
+		mx += 1;
+		tsi = rnd.nextInt(mx);
+		assert tsi >= constants.s_min_u16;
+		assert tsi <= constants.s_max_u16;
+		tsi -= ((int)(constants.s_max_s16));
+		tsi -= 1;
+		assert tsi >= constants.s_min_s16;
+		assert tsi <= constants.s_max_s16;
+		r = ((short)(tsi));
+		assert r == tsi;
+		return r;
+	}
+	public static long make_random_long(java.util.Random random)
+	{
+		return int_to_long(make_random_int(random));
+	}
+	public static boolean eq(long a, long b)
+	{
+		boolean r;
+		assert a >= constants.s_min_u16;
+		assert a <= constants.s_max_u16;
+		assert b >= constants.s_min_u16;
+		assert b <= constants.s_max_u16;
+		r = a == b;
+		return r;
+	}
+	public static boolean eq(short a, short b)
+	{
+		return eq(int_to_long(a), int_to_long(b));
 	}
 	public static long add(long a, long b)
 	{
@@ -54,6 +98,29 @@ public class u16
 		assert r <= constants.s_max_u16;
 		return r;
 	}
+	public static short add(short a, short b)
+	{
+		return long_to_int(add(int_to_long(a), int_to_long(b)));
+	}
+	public static long sub(long a, long b)
+	{
+		long r;
+		assert a >= constants.s_min_u16;
+		assert a <= constants.s_max_u16;
+		assert b >= constants.s_min_u16;
+		assert b <= constants.s_max_u16;
+		r = (a + (constants.s_max_u16 + 1)) - b;
+		assert r >= 1l;
+		assert r <= 0x1ffffl;
+		r &= constants.s_max_u16;
+		assert r >= constants.s_min_u16;
+		assert r <= constants.s_max_u16;
+		return r;
+	}
+	public static short sub(short a, short b)
+	{
+		return long_to_int(sub(int_to_long(a), int_to_long(b)));
+	}
 	public static long mul_lo(long a, long b)
 	{
 		long r;
@@ -62,12 +129,16 @@ public class u16
 		assert b >= constants.s_min_u16;
 		assert b <= constants.s_max_u16;
 		r = a * b;
-		assert r >= 0;
+		assert r >= 0l;
 		assert r <= 0xfffe0001l;
 		r &= constants.s_max_u16;
 		assert r >= constants.s_min_u16;
 		assert r <= constants.s_max_u16;
 		return r;
+	}
+	public static short mul_lo(short a, short b)
+	{
+		return long_to_int(mul_lo(int_to_long(a), int_to_long(b)));
 	}
 	public static long mul_hi(long a, long b)
 	{
@@ -77,12 +148,16 @@ public class u16
 		assert b >= constants.s_min_u16;
 		assert b <= constants.s_max_u16;
 		r = a * b;
-		assert r >= 0;
+		assert r >= 0l;
 		assert r <= 0xfffe0001l;
 		r >>= 16;
 		r &= constants.s_max_u16;
 		assert r >= constants.s_min_u16;
 		assert r <= constants.s_max_u16;
 		return r;
+	}
+	public static short mul_hi(short a, short b)
+	{
+		return long_to_int(mul_hi(int_to_long(a), int_to_long(b)));
 	}
 }
