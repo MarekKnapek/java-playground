@@ -115,13 +115,11 @@ public class frame extends javax.swing.JFrame implements
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		addWindowListener(this);
 	}
-	private void on_new_button()
+	private void set_laf()
 	{
 		javax.swing.UIManager.LookAndFeelInfo info;
 		boolean is_metal;
 		javax.swing.plaf.metal.MetalTheme theme;
-		boolean has_decorations;
-		frame fr;
 		info = m_laf_infos[m_combo_box.getSelectedIndex()];
 		is_metal = info.getClassName().equals(javax.swing.plaf.metal.MetalLookAndFeel.class.getName());
 		if(is_metal)
@@ -151,16 +149,33 @@ public class frame extends javax.swing.JFrame implements
 		catch(java.lang.ClassNotFoundException ex){}
 		catch(java.lang.InstantiationException ex){}
 		catch(java.lang.IllegalAccessException ex){}
+	}
+	private static void make_frame(frame old_frame)
+	{
+		boolean has_decorations;
+		frame fr;
 		has_decorations = javax.swing.JFrame.isDefaultLookAndFeelDecorated();
 		javax.swing.JFrame.setDefaultLookAndFeelDecorated(true);
 		fr = new frame();
-		fr.m_want_ocean = !m_want_ocean;
+		fr.m_want_ocean = old_frame != null ? !old_frame.m_want_ocean : false;
 		javax.swing.JFrame.setDefaultLookAndFeelDecorated(has_decorations);
 		fr.pack();
-		fr.setLocationRelativeTo(this);
+		fr.setLocationRelativeTo(old_frame);
 		fr.setVisible(true);
-		setVisible(false);
-		dispose();
+		if(old_frame != null)
+		{
+			old_frame.setVisible(false);
+			old_frame.dispose();
+		}
+	}
+	public static void make_frame()
+	{
+		make_frame(null);
+	}
+	private void on_new_button()
+	{
+		set_laf();
+		make_frame(this);
 	}
 	private void on_exit_button()
 	{
