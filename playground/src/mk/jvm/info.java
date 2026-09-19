@@ -46,8 +46,8 @@ public class info
 		{
 			key = keys_descriptions[i * 2 + 0];
 			description = keys_descriptions[i * 2 + 1];
-			value = System.getProperty(key, "");
-			System.out.format(java.util.Locale.ROOT, "%s\t%s%n", key, value);
+			value = java.lang.System.getProperty(key, "");
+			java.lang.System.out.format(java.util.Locale.ROOT, "%s\t%s%n", key, value);
 		}
 	}
 }

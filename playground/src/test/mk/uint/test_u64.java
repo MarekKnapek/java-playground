@@ -114,14 +114,14 @@ public class test_u64 extends base
 		double seconds;
 		long tests_count;
 		before = java.lang.System.nanoTime();
-		System.out.println("Start.");
+		java.lang.System.out.println("Start.");
 		run_tests();
-		System.out.println("Done.");
+		java.lang.System.out.println("Done.");
 		after = java.lang.System.nanoTime();
 		diff = after - before;
 		seconds = ((double)(diff)) / (1.0 * 1000.0 * 1000.0 * 1000.0);
 		tests_count = get_tests();
-		System.out.format(java.util.Locale.ROOT, "Performed %d tests, took %f seconds.%n", tests_count, seconds);
+		java.lang.System.out.format(java.util.Locale.ROOT, "Performed %d tests, took %f seconds.%n", tests_count, seconds);
 	}
 	public test_u64(mk.test.itest itest)
 	{
