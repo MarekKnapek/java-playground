@@ -122,15 +122,26 @@ public class frame extends javax.swing.JFrame implements
 		javax.swing.UIManager.LookAndFeelInfo info;
 		boolean is_metal;
 		javax.swing.plaf.metal.MetalTheme theme;
+		java.lang.Class klass;
+		java.lang.Object obj;
 		info = m_laf_infos[m_combo_box.getSelectedIndex()];
 		is_metal = info.getClassName().equals(javax.swing.plaf.metal.MetalLookAndFeel.class.getName());
 		if(is_metal)
 		{
+			theme = null;
 			if(m_want_ocean)
 			{
-				theme = new javax.swing.plaf.metal.OceanTheme();
+				try
+				{
+					klass = Class.forName("javax.swing.plaf.metal.OceanTheme");
+					obj = klass.newInstance();
+					theme = ((javax.swing.plaf.metal.MetalTheme)(obj));
+				}
+				catch(java.lang.InstantiationException ex){}
+				catch(java.lang.ClassNotFoundException ex){}
+				catch(java.lang.IllegalAccessException ex){}
 			}
-			else
+			if(theme == null)
 			{
 				theme = new javax.swing.plaf.metal.DefaultMetalTheme();
 			}
