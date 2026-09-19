@@ -7,13 +7,17 @@ public class test implements itest
 		super();
 		m_tests = 0;
 	}
+	private void failed()
+	{
+		java.lang.Runtime.getRuntime().exit(1);
+	}
 	@Override
 	public void test(boolean test)
 	{
 		++m_tests;
 		if(!test)
 		{
-			 java.lang.Runtime.getRuntime().exit(1);
+			failed();
 		}
 	}
 	@Override
