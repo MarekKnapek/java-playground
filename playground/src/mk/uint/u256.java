@@ -1,30 +1,30 @@
 package mk.uint;
 public class u256
 {
-	private short[] m_digits;
+	private final int[] m_digits;
 	private u256()
 	{
 		super();
-		m_digits = new short[256 / 16];
-	}
-	private short get(int idx)
-	{
-		short r;
-		assert idx >= 0;
-		assert idx < 256 / 16;
-		r = m_digits[idx];
-		return r;
-	}
-	private void set(int idx, short x)
-	{
-		assert idx >= 0;
-		assert idx < 256 / 16;
-		m_digits[idx] = x;
+		m_digits = new int[256 / 32];
 	}
 	private static u256 make_new()
 	{
 		u256 r;
 		r = new u256();
+		return r;
+	}
+	public static u256 make_from_digits(int[] digits)
+	{
+		u256 r;
+		int n;
+		int i;
+		assert digits.length == 256 / 32;
+		r = make_new();
+		n = 256 / 32;
+		for(i = 0; i != n; ++i)
+		{
+			r.m_digits[i] = digits[i];
+		}
 		return r;
 	}
 	public static u256 make_random(java.util.Random random)
@@ -33,32 +33,18 @@ public class u256
 		u256 r;
 		int n;
 		int i;
-		short x;
+		int x;
 		rnd = random;
 		if(rnd == null)
 		{
 			rnd = new java.util.Random();
 		}
 		r = make_new();
-		n = 256 / 16;
+		n = 256 / 32;
 		for(i = 0; i != n; ++i)
 		{
-			x = u16.make_random_int(rnd);
-			r.set(i, x);
-		}
-		return r;
-	}
-	public static u256 make_from_digits(short[] digits)
-	{
-		u256 r;
-		int n;
-		int i;
-		assert digits.length == 256 / 16;
-		r = make_new();
-		n = 256 / 16;
-		for(i = 0; i != n; ++i)
-		{
-			r.m_digits[i] = digits[i];
+			x = rnd.nextInt();
+			r.m_digits[i] = x;
 		}
 		return r;
 	}
@@ -67,10 +53,10 @@ public class u256
 		int n;
 		int i;
 		assert x != null;
-		n = 256 / 16;
+		n = 256 / 32;
 		for(i = 0; i != n; ++i)
 		{
-			set(i, x.get(i));
+			m_digits[i] = x.m_digits[i];
 		}
 		return this;
 	}
@@ -91,10 +77,10 @@ public class u256
 		r = true;
 		if(a != b)
 		{
-			n = 256 / 16;
+			n = 256 / 32;
 			for(i = 0; i != n; ++i)
 			{
-				r = r & u16.eq(a.get(i), b.get(i));
+				r = r & (a.m_digits[i] == b.m_digits[i]);
 			}
 		}
 		return r;
@@ -131,24 +117,24 @@ public class u256
 	}
 	public static void add(u256 r, u256 a, u256 b)
 	{
-		boolean cf;
+		long cf;
 		int n;
 		int i;
-		short sa;
-		short sb;
-		short sr;
+		long la;
+		long lb;
+		long lr;
 		assert r != null;
 		assert a != null;
 		assert b != null;
-		cf = false;
-		n = 256 / 16;
+		cf = 0;
+		n = 256 / 32;
 		for(i = 0; i != n; ++i)
 		{
-			sa = a.get(i);
-			sb = b.get(i);
-			sr = u16.add(sa, sb, cf);
-			cf = u16.would_overflow_add(sa, sb, cf);
-			r.set(i, sr);
+			la = a.m_digits[i] & constants.s_max_u32;
+			lb = b.m_digits[i] & constants.s_max_u32;
+			lr = la + lb + cf;
+			cf = lr >>> 32;
+			r.m_digits[i] = ((int)(lr));
 		}
 	}
 	public u256 add_mut(u256 x)
@@ -167,24 +153,24 @@ public class u256
 	}
 	public static void sub(u256 r, u256 a, u256 b)
 	{
-		boolean cf;
+		long cf;
 		int n;
 		int i;
-		short sa;
-		short sb;
-		short sr;
+		long la;
+		long lb;
+		long lr;
 		assert r != null;
 		assert a != null;
 		assert b != null;
-		cf = false;
-		n = 256 / 16;
+		cf = 0;
+		n = 256 / 32;
 		for(i = 0; i != n; ++i)
 		{
-			sa = a.get(i);
-			sb = b.get(i);
-			sr = u16.sub(sa, sb, cf);
-			cf = u16.would_overflow_sub(sa, sb, cf);
-			r.set(i, sr);
+			la = a.m_digits[i] & constants.s_max_u32;
+			lb = b.m_digits[i] & constants.s_max_u32;
+			lr = la - lb + cf;
+			cf = lr >> 32;
+			r.m_digits[i] = ((int)(lr));
 		}
 	}
 	public u256 sub_mut(u256 x)
@@ -203,55 +189,43 @@ public class u256
 	}
 	private static void mul_restrict(u256 r, u256 a, u256 b)
 	{
-		short sa;
-		short sb;
-		short ra;
-		short rb;
-		short ta;
-		boolean cf;
-		short tb;
+		long cf;
 		int n;
-		int j;
 		int i;
+		long la;
+		long lb;
+		long lc;
+		int m;
+		int j;
+		long lr;
 		assert r != null;
 		assert a != null;
 		assert b != null;
 		assert r != a;
 		assert r != b;
-		sa = a.get(0); sb = b.get(0); ra = u16.mul_lo(sa, sb); rb = u16.mul_hi(sa, sb); r.set(0, ra); r.set(1, rb);
-		sa = a.get(1); sb = b.get(0); ra = u16.mul_lo(sa, sb); rb = u16.mul_hi(sa, sb); ta = ra; r.set(2, rb);
-		sa = r.get(1); sb = ta; ra = u16.add(sa, sb); cf = u16.would_overflow_add(sa, sb); r.set(1, ra);
-		r.set(2, u16.add(r.get(2), ((short)(cf ? 1 : 0))));
-		sa = a.get(0); sb = b.get(1); ra = u16.mul_lo(sa, sb); rb = u16.mul_hi(sa, sb); ta = ra; tb = rb;
-		sa = r.get(1); sb = ta; ra = u16.add(sa, sb); cf = u16.would_overflow_add(sa, sb); r.set(1, ra);
-		sa = r.get(2); sb = tb; ra = u16.add(sa, sb, cf); cf = u16.would_overflow_add(sa, sb, cf); r.set(2, ra);
-		r.set(3, ((short)(cf ? 1 : 0)));
-		n = 256 / 16;
-		for(j = 2; j != n - 2; ++j)
+		cf = 0;
+		n = 256 / 32;
+		for(i = 0; i != n; ++i)
 		{
-			sa = a.get(j); sb = b.get(0); ra = u16.mul_lo(sa, sb); rb = u16.mul_hi(sa, sb); ta = ra; tb = rb;
-			sa = r.get(j); sb = ta; ra = u16.add(sa, sb); cf = u16.would_overflow_add(sa, sb); r.set(j, ra);
-			sa = r.get(j + 1); sb = tb; ra = u16.add(sa, sb, cf); cf = u16.would_overflow_add(sa, sb, cf); r.set(j + 1, ra);
-			r.set(j + 2, ((short)(cf ? 1 : 0)));
-			for(i = 1; i != j + 1; ++i)
+			la = a.m_digits[i] & constants.s_max_u32;
+			lb = b.m_digits[0] & constants.s_max_u32;
+			lc = la * lb + cf;
+			r.m_digits[i] = ((int)(lc));
+			cf = lc >>> 32;
+		}
+		for(i = 1; i != n; ++i)
+		{
+			cf = 0;
+			m = n - i;
+			for(j = 0; j != m; ++j)
 			{
-				sa = a.get(j - i); sb = b.get(i); ra = u16.mul_lo(sa, sb); rb = u16.mul_hi(sa, sb); ta = ra; tb = rb;
-				sa = r.get(j); sb = ta; ra = u16.add(sa, sb); cf = u16.would_overflow_add(sa, sb); r.set(j, ra);
-				sa = r.get(j + 1); sb = tb; ra = u16.add(sa, sb, cf); cf = u16.would_overflow_add(sa, sb, cf); r.set(j + 1, ra);
-				r.set(j + 2, u16.add(r.get(j + 2), ((short)(cf ? 1 : 0))));
+				la = a.m_digits[j] & constants.s_max_u32;
+				lb = b.m_digits[i] & constants.s_max_u32;
+				lr = r.m_digits[i + j] & constants.s_max_u32;
+				lc = la * lb + lr + cf;
+				r.m_digits[i + j] = ((int)(lc));
+				cf = lc >>> 32;
 			}
-		}
-		for(i = 0; i != j + 1; ++i)
-		{
-			sa = a.get(j - i); sb = b.get(i); ra = u16.mul_lo(sa, sb); rb = u16.mul_hi(sa, sb); ta = ra; tb = rb;
-			sa = r.get(j); sb = ta; ra = u16.add(sa, sb); cf = u16.would_overflow_add(sa, sb); r.set(j, ra);
-			sa = r.get(j + 1); sb = tb; ra = u16.add(sa, sb, cf); r.set(j + 1, ra);
-		}
-		++j;
-		for(i = 0; i != j + 1; ++i)
-		{
-			sa = a.get(j - i); sb = b.get(i); ra = u16.mul_lo(sa, sb); ta = ra;
-			sa = r.get(j); sb = ta; ra = u16.add(sa, sb); r.set(j, ra);
 		}
 	}
 	private static void mul_alias(u256 r, u256 a, u256 b)
@@ -298,19 +272,23 @@ public class u256
 		int idx;
 		int n;
 		int i;
-		short s;
+		long x;
 		int nibble;
 		java.lang.String r;
 		buf = new char[256 / 8 * 2];
 		idx = (256 / 8 * 2) - 1;
-		n = 256 / 16;
+		n = 256 / 32;
 		for(i = 0; i != n; ++i)
 		{
-			s = get(i);
-			nibble = (s >> (0 * 4)) & 0xf; buf[idx] = constants.s_alphabet[nibble]; --idx;
-			nibble = (s >> (1 * 4)) & 0xf; buf[idx] = constants.s_alphabet[nibble]; --idx;
-			nibble = (s >> (2 * 4)) & 0xf; buf[idx] = constants.s_alphabet[nibble]; --idx;
-			nibble = (s >> (3 * 4)) & 0xf; buf[idx] = constants.s_alphabet[nibble]; --idx;
+			x = m_digits[i] & constants.s_max_u32;
+			nibble = ((int)((x >> (0 * 4)) & 0xf)); buf[idx] = constants.s_alphabet[nibble]; --idx;
+			nibble = ((int)((x >> (1 * 4)) & 0xf)); buf[idx] = constants.s_alphabet[nibble]; --idx;
+			nibble = ((int)((x >> (2 * 4)) & 0xf)); buf[idx] = constants.s_alphabet[nibble]; --idx;
+			nibble = ((int)((x >> (3 * 4)) & 0xf)); buf[idx] = constants.s_alphabet[nibble]; --idx;
+			nibble = ((int)((x >> (4 * 4)) & 0xf)); buf[idx] = constants.s_alphabet[nibble]; --idx;
+			nibble = ((int)((x >> (5 * 4)) & 0xf)); buf[idx] = constants.s_alphabet[nibble]; --idx;
+			nibble = ((int)((x >> (6 * 4)) & 0xf)); buf[idx] = constants.s_alphabet[nibble]; --idx;
+			nibble = ((int)((x >> (7 * 4)) & 0xf)); buf[idx] = constants.s_alphabet[nibble]; --idx;
 		}
 		assert idx == -1;
 		r = new java.lang.String(buf);
