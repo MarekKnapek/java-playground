@@ -285,30 +285,12 @@ public class u32
 	}
 	public static long mul_lo(long a, long b)
 	{
-		long a_lo;
-		long a_hi;
-		long b_lo;
-		long b_hi;
-		long c_lo;
-		long c_hi;
-		long ta;
-		long tb;
 		long r;
 		assert a >= constants.s_min_u32;
 		assert a <= constants.s_max_u32;
 		assert b >= constants.s_min_u32;
 		assert b <= constants.s_max_u32;
-		a_lo = get_lo(a);
-		a_hi = get_hi(a);
-		b_lo = get_lo(b);
-		b_hi = get_hi(b);
-		c_lo = u16.mul_lo(a_lo, b_lo);
-		c_hi = u16.mul_hi(a_lo, b_lo);
-		ta = u16.mul_lo(a_lo, b_hi);
-		tb = u16.mul_lo(a_hi, b_lo);
-		c_hi = u16.add(c_hi, ta);
-		c_hi = u16.add(c_hi, tb);
-		r = combine_hi_lo_long(c_hi, c_lo);
+		r = ((a * b) >> (0 * 32)) & constants.s_max_u32;
 		assert r >= constants.s_min_u32;
 		assert r <= constants.s_max_u32;
 		return r;
@@ -327,37 +309,12 @@ public class u32
 	}
 	public static long mul_hi(long a, long b)
 	{
-		long alo;
-		long ahi;
-		long blo;
-		long bhi;
-		long ablo;
-		long abmi;
-		long bami;
-		long abhi;
 		long r;
-		long ta;
 		assert a >= constants.s_min_u32;
 		assert a <= constants.s_max_u32;
 		assert b >= constants.s_min_u32;
 		assert b <= constants.s_max_u32;
-		alo = get_lo(a);
-		ahi = get_hi(a);
-		blo = get_lo(b);
-		bhi = get_hi(b);
-		ablo = mul_lo(alo, blo);
-		abmi = mul_lo(alo, bhi);
-		bami = mul_lo(ahi, blo);
-		abhi = mul_lo(ahi, bhi);
-		r = 0l;
-		r = add(r, abhi);
-		r = add(r, get_hi(abmi));
-		r = add(r, get_hi(bami));
-		ta = 0l;
-		ta = add(ta, get_lo(abmi));
-		ta = add(ta, get_lo(bami));
-		ta = add(ta, get_hi(ablo));
-		r = add(r, get_hi(ta));
+		r = ((a * b) >> 32) & constants.s_max_u32;
 		assert r >= constants.s_min_u32;
 		assert r <= constants.s_max_u32;
 		return r;
