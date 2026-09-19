@@ -23,6 +23,7 @@ public class frame extends javax.swing.JFrame implements
 		int n;
 		java.lang.String[] names;
 		int i;
+		javax.swing.DefaultComboBoxModel model;
 		current_laf = javax.swing.UIManager.getLookAndFeel();
 		current_class_name = current_laf.getClass().getName();
 		m_laf_infos = javax.swing.UIManager.getInstalledLookAndFeels();
@@ -37,7 +38,8 @@ public class frame extends javax.swing.JFrame implements
 				idx = i;
 			}
 		}
-		m_combo_box = new javax.swing.JComboBox<>(names);
+		model = new javax.swing.DefaultComboBoxModel(names);
+		m_combo_box = new javax.swing.JComboBox(model);
 		m_combo_box.setSelectedIndex(idx);
 	}
 	private void init_button_new()
