@@ -80,8 +80,8 @@ public class frame extends javax.swing.JFrame implements
 		flow_layout = new java.awt.FlowLayout();
 		flow_gap_h = flow_layout.getHgap();
 		flow_gap_v = flow_layout.getVgap();
-		gap = Integer.max(gap, flow_gap_h);
-		gap = Integer.max(gap, flow_gap_v);
+		gap = mk.utils.max(gap, flow_gap_h);
+		gap = mk.utils.max(gap, flow_gap_v);
 		m_combo_box.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
 		m_combo_box.setMaximumSize(m_combo_box.getPreferredSize());
 		m_new_button.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
