@@ -60,12 +60,13 @@ public class frame extends javax.swing.JFrame implements
 		init_button_new();
 		init_button_exit();
 	}
-	private void set_min_size()
+	/*@Override*/
+	public java.awt.Dimension getMinimumSize()
 	{
 		java.awt.Dimension min_size;
 		min_size = new java.awt.Dimension();
 		min_size.setSize(250, 250);
-		setMinimumSize(min_size);
+		return min_size;
 	}
 	private void add_components()
 	{
@@ -112,7 +113,6 @@ public class frame extends javax.swing.JFrame implements
 	private void init_window()
 	{
 		add_components();
-		set_min_size();
 		setTitle("example");
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		addWindowListener(this);
@@ -156,12 +156,21 @@ public class frame extends javax.swing.JFrame implements
 	{
 		boolean has_decorations;
 		frame fr;
+		java.awt.Dimension cur_size;
+		java.awt.Dimension min_size;
 		has_decorations = javax.swing.JFrame.isDefaultLookAndFeelDecorated();
 		javax.swing.JFrame.setDefaultLookAndFeelDecorated(true);
 		fr = new frame();
 		fr.m_want_ocean = old_frame != null ? !old_frame.m_want_ocean : false;
 		javax.swing.JFrame.setDefaultLookAndFeelDecorated(has_decorations);
 		fr.pack();
+		cur_size = fr.getSize();
+		min_size = fr.getMinimumSize();
+		fr.setSize
+		(
+			mk.utils.max(cur_size.width, min_size.width),
+			mk.utils.max(cur_size.height, min_size.height)
+		);
 		fr.setLocationRelativeTo(old_frame);
 		fr.setVisible(true);
 		if(old_frame != null)
