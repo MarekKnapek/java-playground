@@ -121,7 +121,7 @@ public class test_u128 extends base
 		diff = after - before;
 		seconds = ((double)(diff)) / (1.0 * 1000.0 * 1000.0 * 1000.0);
 		tests_count = get_tests();
-		java.lang.System.out.format(java.util.Locale.ROOT, "Performed %d tests, took %f seconds.%n", tests_count, seconds);
+		java.lang.System.out.println("Performed " + tests_count + " tests, took " + seconds + " seconds.");
 	}
 	public test_u128(mk.test.itest itest)
 	{

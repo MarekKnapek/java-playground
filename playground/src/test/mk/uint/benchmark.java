@@ -60,7 +60,7 @@ public class benchmark
 		after = mk.utils.nano_time();
 		diff = after - before;
 		seconds = ((double)(diff)) / (1.0 * 1000.0 * 1000.0 * 1000.0);
-		java.lang.System.out.format(java.util.Locale.ROOT, "Took %f seconds.%n", seconds);
+		java.lang.System.out.println("Took " + seconds + " seconds.");
 	}
 	private static void run_program_they()
 	{
@@ -77,7 +77,7 @@ public class benchmark
 		after = mk.utils.nano_time();
 		diff = after - before;
 		seconds = ((double)(diff)) / (1.0 * 1000.0 * 1000.0 * 1000.0);
-		java.lang.System.out.format(java.util.Locale.ROOT, "Took %f seconds.%n", seconds);
+		java.lang.System.out.println("Took " + seconds + " seconds.");
 	}
 	public static void main(java.lang.String[] args)
 	{
