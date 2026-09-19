@@ -92,7 +92,7 @@ public class u256
 		r = eq(this, x);
 		return r;
 	}
-	@Override
+	/*@Override*/
 	public boolean equals(java.lang.Object x)
 	{
 		boolean r;
@@ -294,7 +294,7 @@ public class u256
 		r = new java.lang.String(buf);
 		return r;
 	}
-	@Override
+	/*@Override*/
 	public java.lang.String toString()
 	{
 		return "0x" + as_string_hex_full();

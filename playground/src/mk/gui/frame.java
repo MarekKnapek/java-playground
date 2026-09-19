@@ -181,35 +181,35 @@ public class frame extends javax.swing.JFrame implements
 	{
 		dispose();
 	}
-	@Override
+	/*@Override*/
 	public void windowOpened(java.awt.event.WindowEvent e)
 	{
 	}
-	@Override
+	/*@Override*/
 	public void windowClosing(java.awt.event.WindowEvent e)
 	{
 	}
-	@Override
+	/*@Override*/
 	public void windowClosed(java.awt.event.WindowEvent e)
 	{
 	}
-	@Override
+	/*@Override*/
 	public void windowIconified(java.awt.event.WindowEvent e)
 	{
 	}
-	@Override
+	/*@Override*/
 	public void windowDeiconified(java.awt.event.WindowEvent e)
 	{
 	}
-	@Override
+	/*@Override*/
 	public void windowActivated(java.awt.event.WindowEvent e)
 	{
 	}
-	@Override
+	/*@Override*/
 	public void windowDeactivated(java.awt.event.WindowEvent e)
 	{
 	}
-	@Override
+	/*@Override*/
 	public void actionPerformed(java.awt.event.ActionEvent e)
 	{
 		java.lang.Object src;

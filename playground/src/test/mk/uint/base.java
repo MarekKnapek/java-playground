@@ -23,12 +23,12 @@ public class base implements mk.test.itest
 	{
 		return m_common.get_rnd();
 	}
-	@Override
+	/*@Override*/
 	public void test(boolean test)
 	{
 		m_itest.test(test);
 	}
-	@Override
+	/*@Override*/
 	public long get_tests()
 	{
 		return m_itest.get_tests();

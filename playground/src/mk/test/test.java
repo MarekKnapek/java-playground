@@ -11,7 +11,7 @@ public class test implements itest
 	{
 		java.lang.Runtime.getRuntime().exit(1);
 	}
-	@Override
+	/*@Override*/
 	public void test(boolean test)
 	{
 		++m_tests;
@@ -20,7 +20,7 @@ public class test implements itest
 			failed();
 		}
 	}
-	@Override
+	/*@Override*/
 	public long get_tests()
 	{
 		return m_tests;
