@@ -113,11 +113,11 @@ public class test_u64 extends base
 		long diff;
 		double seconds;
 		long tests_count;
-		before = java.lang.System.nanoTime();
+		before = mk.utils.nano_time();
 		java.lang.System.out.println("Start.");
 		run_tests();
 		java.lang.System.out.println("Done.");
-		after = java.lang.System.nanoTime();
+		after = mk.utils.nano_time();
 		diff = after - before;
 		seconds = ((double)(diff)) / (1.0 * 1000.0 * 1000.0 * 1000.0);
 		tests_count = get_tests();

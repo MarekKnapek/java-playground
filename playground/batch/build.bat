@@ -10,6 +10,7 @@ javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\mk\uint\u16.java || g
 javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\mk\uint\u256.java || goto :mk_bad
 javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\mk\uint\u32.java || goto :mk_bad
 javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\mk\uint\u64.java || goto :mk_bad
+javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\mk\utils.java || goto :mk_bad
 javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\test\mk\uint\base.java || goto :mk_bad
 javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\test\mk\uint\benchmark.java || goto :mk_bad
 javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\test\mk\uint\common.java || goto :mk_bad
