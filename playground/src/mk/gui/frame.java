@@ -63,10 +63,19 @@ public class frame extends javax.swing.JFrame implements
 	/*@Override*/
 	public java.awt.Dimension getMinimumSize()
 	{
-		java.awt.Dimension min_size;
-		min_size = new java.awt.Dimension();
-		min_size.setSize(250, 250);
-		return min_size;
+		java.awt.Dimension cur_min_size;
+		java.awt.Dimension our_min_size;
+		java.awt.Dimension ret_min_size;
+		cur_min_size = super.getMinimumSize();
+		our_min_size = new java.awt.Dimension();
+		our_min_size.setSize(250, 250);
+		ret_min_size = new java.awt.Dimension();
+		ret_min_size.setSize
+		(
+			java.lang.Math.max(cur_min_size.width, our_min_size.width),
+			java.lang.Math.max(cur_min_size.height, our_min_size.height)
+		);
+		return ret_min_size;
 	}
 	private void add_components()
 	{
