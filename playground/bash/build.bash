@@ -7,6 +7,7 @@ mk_cp_dir="${mk_src_dir}"
 mk_out_dir="${mk_this_dir}"/../build/classes
 javac -d "${mk_out_dir}" -cp "${mk_src_dir}" "${mk_src_dir}"/mk/gui/draw.java
 javac -d "${mk_out_dir}" -cp "${mk_src_dir}" "${mk_src_dir}"/mk/gui/frame.java
+javac -d "${mk_out_dir}" -cp "${mk_src_dir}" "${mk_src_dir}"/mk/gui/gcstatus.java
 javac -d "${mk_out_dir}" -cp "${mk_src_dir}" "${mk_src_dir}"/mk/gui/gui_starter.java
 javac -d "${mk_out_dir}" -cp "${mk_src_dir}" "${mk_src_dir}"/mk/gui/guiapp1.java
 javac -d "${mk_out_dir}" -cp "${mk_src_dir}" "${mk_src_dir}"/mk/jvm/info.java
