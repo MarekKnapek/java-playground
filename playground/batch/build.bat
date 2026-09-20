@@ -1,3 +1,4 @@
+javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\mk\gui\draw.java || goto :mk_bad
 javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\mk\gui\frame.java || goto :mk_bad
 javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\mk\gui\gui_starter.java || goto :mk_bad
 javac -d %~dp0..\build\classes -cp %~dp0..\src %~dp0..\src\mk\gui\guiapp1.java || goto :mk_bad
